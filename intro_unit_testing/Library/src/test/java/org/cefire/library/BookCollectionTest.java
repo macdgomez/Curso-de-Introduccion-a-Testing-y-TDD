@@ -59,5 +59,13 @@ public class BookCollectionTest {
         Assertions.assertFalse(foundBooks::isEmpty);
         foundBooks.forEach((Book book)->Assertions.assertTrue(book.getTitle().contains(titleToLocate)));
     }
+    
+    @Test
+    public void bookCollectionEmpty(){
+
+        final String titleToLocate = "un titulo inexistente en BookCollection vacía";
+        BookCollection books = new BookCollection(new Book[]{});
+        Assertions.assertTrue(books.find(titleToLocate).isEmpty());
+    }
 
 }
