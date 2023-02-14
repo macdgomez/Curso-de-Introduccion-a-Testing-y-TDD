@@ -20,5 +20,36 @@ public class BookCollection {
         }
         return foundBooks;
     }
-}
 
+    public List<Book> findCopies(Book bookToBeFound){
+        List<Book> foundBooks = new ArrayList<>();
+
+        for(Book book: this.books){
+            if(book.getISBN().equals(bookToBeFound.getISBN())
+                && book.getTitle().equals(bookToBeFound.getTitle())
+                && book.getAuthor().equals(bookToBeFound.getAuthor())){
+                foundBooks.add(book);
+            }
+        }
+        return foundBooks;
+    }
+
+    public List<Book> findOrFail(String textToFind){
+        List<Book> foundBooks = new ArrayList<>();
+
+        for(Book book: this.books){
+            if(book.getISBN().equals(textToFind)||
+                    book.getAuthor().equals(textToFind)||
+                    book.getTitle().equals(textToFind)){
+                foundBooks.add(book);
+            }
+        }
+        if(foundBooks.isEmpty())
+            throw new ExpectedToFindAtLeastABook();
+
+        return foundBooks;
+    }
+
+    public static class ExpectedToFindAtLeastABook extends RuntimeException{
+    }
+}
