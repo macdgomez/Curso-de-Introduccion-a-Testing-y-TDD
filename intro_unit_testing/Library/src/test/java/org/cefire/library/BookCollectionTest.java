@@ -6,9 +6,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+
 public class BookCollectionTest {
     @Test
-
     public void shouldFindABookByISBN(){
         final String isbnToLocate = "un-isbn-2";
 
@@ -20,8 +25,9 @@ public class BookCollectionTest {
         });
 
         List<Book> foundBooks = books.find(isbnToLocate);
-        Assertions.assertFalse(foundBooks::isEmpty);
-        foundBooks.forEach((Book book)->Assertions.assertEquals(isbnToLocate,book.getISBN()));
+
+        assertThat(foundBooks.isEmpty(), is(false) );
+        foundBooks.forEach((Book book)->assertThat(isbnToLocate, is(equalTo(book.getISBN()))));
 
     }
     @Test
@@ -32,7 +38,11 @@ public class BookCollectionTest {
                 new Book("un-isbn-2","un titulo 2", "un autor 2"),
                 new Book("un-isbn-3","un titulo 3", "un autor 3")
         });
-        Assertions.assertTrue(books.find(isbnToLocate).isEmpty());
+        // JUnit
+        // Assertions.assertTrue(books.find(isbnToLocate).isEmpty());
+
+        // Con HamCrest
+        assertThat(books.find(isbnToLocate).isEmpty(),is(true));
     }
 
     @Test
@@ -57,7 +67,7 @@ public class BookCollectionTest {
         });
 
         List<Book> foundBooks = books.find(titleToLocate);
-        Assertions.assertFalse(foundBooks::isEmpty);
+        assertFalse(foundBooks::isEmpty);
         foundBooks.forEach((Book book)->Assertions.assertTrue(book.getTitle().contains(titleToLocate)));
     }
     
@@ -87,7 +97,7 @@ public class BookCollectionTest {
 
         List<Book> foundBooks = books.findCopies(bookToBeFound);
 
-        Assertions.assertFalse(foundBooks.isEmpty());
+        assertFalse(foundBooks.isEmpty());
 
         foundBooks.forEach((Book book)->Assertions.assertEquals(book,bookToBeFound));
 
